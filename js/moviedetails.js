@@ -38,5 +38,8 @@ function addData(data) {
 
     const url = URL.createObjectURL(file);
 
-    document.getElementById("image").src = url;    
+    const image = document.getElementById("image");
+    image.height = 630;
+    image.width = 420;
+    image.src = url;
 }
