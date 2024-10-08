@@ -32,6 +32,7 @@ if (paramSearch.has("id")) {
 
 } else {
     document.getElementById("deleteBtn").remove();
+    document.getElementById("cancelBtn").onclick = () => location.href = "customer.html";
     httpMethod = "POST";
 }
 
