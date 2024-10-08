@@ -1,0 +1,10 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #1a1a1a 0%, #5a0d0d 100%);
+    overflow: scroll;
+    color: silver;
+}
+
+p {
+    display: inline-block;
+}

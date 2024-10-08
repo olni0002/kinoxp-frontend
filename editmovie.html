@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/editmovie.css">
+</head>
+<body>
+    
+    <img id="oldimage">
+
+    <p>Image</p>
+    <input type="file" accept="image/*" id="image"><br>
+    <p>Title</p>
+    <input type="text" id="title"><br>
+    <p>Category</p>
+    <select id="category"></select><br>
+    <p>Description</p>
+    <textarea id="description"></textarea><br>
+    <p>Duration</p>
+    <input type="number" id="duration-hours"><p>Hours</p><input type="number" id="duration-minutes"><p>Minutes</p><br>
+    <p>Price</p>
+    <input type="number" id="price"><p>DKK</p><br>
+
+    <button onclick="saveMovie()">Save</button>
+    <button onclick="goToMovie()">Cancel</button>
+    <button onclick="deleteMovie()">Delete</button>
+
+    <script src="js/editmovie.js"></script>
+</body>
+</html>
