@@ -1,0 +1,75 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #1a1a1a 0%, #5a0d0d 100%);
+    overflow: scroll;
+}
+
+.infocontainer {
+    display: flex; /* Use flexbox for layout */
+    align-items: flex-start; /* Align items at the start */
+}
+
+#image {
+    margin-top: 8px;
+}
+
+.moviedetails {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 40px;
+    color: silver;
+    flex: 1;
+    margin: 40px;
+}
+
+.info {
+    margin: 0px;
+    font-size: 0.9em;
+}
+
+#description {
+    font-size: 1.25em;
+}
+
+#title {
+    font-size: 3em;
+    font-weight: bold;
+    margin: 0px;
+}
+
+.logo-kino {
+    background: linear-gradient(45deg, #e63946, #f1faee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: flicker 3s infinite;
+}
+
+.logo-xp {
+    color: #f1faee; /* Make the XP white */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow: 0 0 4px #e63946, 0 0 11px #e63946, 0 0 19px #e63946, 0 0 40px #e63946;
+    }
+    20%, 24%, 55% {
+        text-shadow: none;
+    }
+}
+.logo-container {
+    background-color: #000;
+    padding: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+    position: relative;
+    width: 100%;
+    text-align: center;
+}
+
+.logo {
+    font-size: 3em;
+    font-weight: bold;
+    margin: 0;
+    letter-spacing: 0.1em; /* Increase spacing between characters */
+}
