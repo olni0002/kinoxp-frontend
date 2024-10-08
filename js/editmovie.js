@@ -31,6 +31,7 @@ if (paramSearch.has("id")) {
                    .then(data => addData(data));
 
 } else {
+    document.getElementById("deleteBtn").remove();
     httpMethod = "POST";
 }
 
