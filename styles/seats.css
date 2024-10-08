@@ -1,0 +1,140 @@
+#seating-grid-container {
+    padding: 10px; /* Add padding around the grid */
+    border: 2px solid #ccc; /* Border around the grid container */
+    border-radius: 8px; /* Rounded corners for the container */
+    background-color: #f9f9f9; /* Light background color for the container */
+    display: inline-block; /* Ensure the container fits the grid size */
+    margin-top: 20px; /* Space above the container */
+}
+
+#seating-grid {
+    display: grid;
+    grid-template-columns: repeat(20, 24px); /* Adjust columns based on your data */
+    grid-template-rows: repeat(12, 24px);    /* Adjust rows based on your data */
+    grid-gap: 8px; /* Space between seats */
+}
+
+.seat {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #444; /* Default color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s; /* Smooth transition for color change */
+    border: 1px solid #333; /* Border for each seat to give box effect */
+}
+
+.seat.available {
+    background-color: #28a745; /* Green for available seats */
+}
+
+.seat.selected {
+    background-color: #007bff; /* Blue for selected seats */
+}
+
+.seat.luxury {
+    background-color: #6f42c1; /* Purple for luxury seats */
+}
+
+.seat.last-two-rows {
+    background-color: #ffc107; /* Yellow for the last two rows */
+}
+
+.seat.taken {
+    pointer-events: none; /* Disable click events */
+    background-color: #ccc; /* Change color to indicate it's taken */
+    cursor: not-allowed; /* Change cursor to indicate it's not clickable */
+}
+
+.seat.taken:hover {
+    background-color: #ccc; /* Ensure hover doesn't change the color */
+}
+
+.legend-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    border-radius: 3px;
+}
+
+#legend {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+}
+
+.legend-item span {
+    margin-left: 5px;
+}
+
+#selectedSeatsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#selectedSeatsTable th,
+#selectedSeatsTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+#selectedSeatsTable th {
+    background-color: #f2f2f2;
+    color: black;
+}
+
+#selectedSeatsTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#selectedSeatsTable tr:hover {
+    background-color: #ddd;
+}
+
+#totalPrice {
+    font-size: 18px; /* Larger font size */
+    font-weight: bold;
+    color: #333;
+    margin-top: 20px;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%; /* Full width for responsive design */
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+/* Change border color on focus */
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+/* Optional: Add a container to center the inputs and paragraph */
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

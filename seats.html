@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Seats</title>
+    <link rel="stylesheet" href="styles/seats.css">
+</head>
+<body>
+<h1>Seats Table</h1>
+<div id="seats-section">
+    <h3>Vælg pladser</h3>
+    <div id="seating-grid-container">
+        <div id="seating-grid"></div> <!-- The grid will be dynamically filled by JS -->
+    </div>
+</div>
+
+<table id="selectedSeatsTable">
+    <thead>
+    <tr>
+        <th>Seat Number</th>
+        <th>Row Number</th>
+    </tr>
+    </thead>
+    <tbody id="selectedSeatsBody">
+    <!-- Selected seats will be listed here -->
+    </tbody>
+</table>
+
+<div class="container">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <p id="totalPrice">Total Price: $0.00</p>
+</div>
+
+<script src="js/seats.js"></script>
+</body>
+</html>
