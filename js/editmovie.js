@@ -125,5 +125,5 @@ function addData(data) {
 function deleteMovie() {
     fetch(movieApi, {
         method: "DELETE"
-    });
+    }).then(() => location.href = "customer.html");
 }
