@@ -30,7 +30,7 @@ function createTable(movie) {
         let valueCell = row.insertCell();
         valueCell.innerHTML = value;
     });
-    const urlMovieView= `http://localhost:8080/showing/${movie.id}`
+    const urlMovieView= `moviedetails.html?id=${movie.id}`
 
     // Create a button and append it to the table
     let buttonRow = tbody.insertRow();
