@@ -73,3 +73,30 @@ body {
     margin: 0;
     letter-spacing: 0.1em; /* Increase spacing between characters */
 }
+.showings-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: #2b2b2b; /* Dark background for the table */
+    color: #ffffff; /* White text for better contrast */
+}
+
+.showings-table th, .showings-table td {
+    border: 1px solid #444; /* Darker border to blend with the table */
+    padding: 12px; /* Increased padding for better readability */
+    text-align: left;
+}
+
+.showings-table th {
+    background-color: #444; /* Darker header background */
+    color: #ffffff; /* White text for contrast */
+    font-weight: bold; /* Bold text for headers */
+}
+
+.showings-table tr:nth-child(even) {
+    background-color: #3a3a3a; /* Alternate row color for readability */
+}
+
+.showings-table tr:hover {
+    background-color: #575757; /* Highlight row on hover */
+}

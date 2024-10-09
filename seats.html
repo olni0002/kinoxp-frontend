@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,14 +5,31 @@
     <link rel="stylesheet" href="styles/seats.css">
 </head>
 <body>
-<h1>Seats Table</h1>
+
+<div class="logo-container">
+    <h1 class="logo"><span class="logo-kino">KINO</span><span class="logo-xp">XP</span></h1>
+</div>
+
+<h1>Welcome</h1>
+<h3>please log in to reserve seats</h3>
+<div class="container">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <p id="totalPrice">Total Price: $0.00</p>
+</div>
+
 <div id="seats-section">
-    <h3>Vælg pladser</h3>
+    <!-- The new black box for the screen -->
+
+
+    <h3>Choose the seats you want</h3>
     <div id="seating-grid-container">
         <div id="seating-grid"></div> <!-- The grid will be dynamically filled by JS -->
     </div>
 </div>
 
+
+<div id="screen">BIG SCREEN</div>
 <table id="selectedSeatsTable">
     <thead>
     <tr>
@@ -26,11 +42,7 @@
     </tbody>
 </table>
 
-<div class="container">
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-    <p id="totalPrice">Total Price: $0.00</p>
-</div>
+
 
 <script src="js/seats.js"></script>
 </body>

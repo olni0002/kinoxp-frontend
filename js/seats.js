@@ -1,10 +1,34 @@
-
 const urlSeats = "http://localhost:8080/seats";
 const seatingGrid = document.getElementById("seating-grid");
 const selectedSeatsBody = document.getElementById("selectedSeatsBody");
 const totalPriceElement = document.getElementById("totalPrice");
 
 let selectedSeats = []; // Initialize the selected seats array
+
+// Get the showing ID from the URL
+const urlParams = new URLSearchParams(window.location.search);
+const showingId = urlParams.get('showingId');
+
+if (showingId) {
+    // Use the showing ID to fetch the relevant seats and theater details
+    fetchSeatsForShowing(showingId);
+} else {
+    console.error("No showing ID found in the URL.");
+}
+
+// Function to fetch seats based on showing ID
+async function fetchSeatsForShowing(showingId) {
+    try {
+        // Fetch the showing details to get the theater ID
+        const showingDetails = await fetchAnyUrl(`http://localhost:8080/showings/${showingId}`);
+        const theaterId = showingDetails.theater.id; // Assuming the showing details include the theater ID
+
+        // Now fetch the seats for the specific theater
+        fetchSeats(theaterId);
+    } catch (error) {
+        console.error(`Error fetching showing details or seats: ${error}`);
+    }
+}
 
 // Function to create the seating grid
 async function createSeatGrid(seats) {
@@ -62,9 +86,10 @@ async function createSeatGrid(seats) {
     });
 }
 
-const urlUser = "http://localhost:8080/users";
 
-async function checkUser (email, password) {
+const urlUser  = "http://localhost:8080/users";
+
+async function checkUser  (email, password) {
     try {
         // Fetch all users from the backend
         const users = await fetchAnyUrl(urlUser );
@@ -114,6 +139,7 @@ function updateSelectedSeatsTable() {
     const bookButtonCell = document.createElement('td');
     bookButtonCell.colSpan = 2; // Make the button span across both columns
     const bookButton = document.createElement('button');
+    bookButton.id = 'bookButton';
     bookButton.textContent = 'Book';
     bookButton.onclick = async () => {
         // Get the email and password from HTML input fields
@@ -130,8 +156,8 @@ function updateSelectedSeatsTable() {
                 // Create a new reservation object for each selected seat
                 const reservations = selectedSeats.map(seat => {
                     return {
-                        showing: { id: 1 }, // Replace with the actual showing ID
-                        seat: { id: seat.id }, // Replace with the actual seat ID
+                        showing: { id: showingId }, // Use the actual showing ID
+                        seat: { id: seat.id }, // Use the actual seat ID
                         user: { id: userid } // Use the userid returned from checkUser
                     };
                 });
@@ -202,8 +228,19 @@ async function fetchAnyUrl(url) {
         console.error(`Error fetching ${url}: ${error}`);
     }
 }
+function showError(message) {
+    const errorElement = document.getElementById('error-message');
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+    }
+}
 
-// Fetch seat data for theater 1 or 2 on page load
-fetchSeats(2);  // Change to 1 or 2 based on the theater you want to test
-
+// Example of how you might initially hide the error message element
+document.addEventListener('DOMContentLoaded', () => {
+    const errorElement = document.getElementById('error-message');
+    if (errorElement) {
+        errorElement.style.display = 'none';
+    }
+});
 

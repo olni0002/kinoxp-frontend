@@ -7,26 +7,27 @@
     <link rel="stylesheet" href="styles/moviedetails.css">
 </head>
 <body>
+<div class="background"></div> <!-- Background texture -->
+<div class="logo-container">
+    <h1 class="logo"><span class="logo-kino">KINO</span><span class="logo-xp">XP</span></h1>
+</div>
 
-    <div class="logo-container">
-        <h1 class="logo"><span class="logo-kino">KINO</span><span class="logo-xp">XP</span></h1>
+<div class="infocontainer">
+    <img id="image" alt="Movie Image">
+
+    <div class="moviedetails">
+        <p id="title"></p>
+        <p class="info"><span id="duration"></span> | <span id="category"></span></p>
+        <p id="description"></p>
     </div>
 
-    <div class="infocontainer">
-        <img id="image">
-
-        <div class="moviedetails">
-            <p id="title"></p>
-            <p class="info"><span id="duration"></span> | <span id="category"></span></p>
-            <p id="description"></p>
-        </div>
+    <!-- Container for showings -->
+    <div id="showings" class="showings-container">
+        <h3>Showings</h3>
+        <!-- Showings will be dynamically inserted here -->
     </div>
-    
+</div>
 
-        
-        
-    
-
-    <script src="js/moviedetails.js"></script>
+<script src="js/moviedetails.js"></script>
 </body>
 </html>

@@ -1,64 +1,43 @@
 #seating-grid-container {
-    padding: 10px; /* Add padding around the grid */
-    border: 2px solid #ccc; /* Border around the grid container */
-    border-radius: 8px; /* Rounded corners for the container */
-    background-color: #f9f9f9; /* Light background color for the container */
-    display: inline-block; /* Ensure the container fits the grid size */
-    margin-top: 20px; /* Space above the container */
+    padding: 15px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #f4f4f4;
+    display: inline-block;
+    margin-top: 30px;
 }
 
 #seating-grid {
     display: grid;
-    grid-template-columns: repeat(20, 24px); /* Adjust columns based on your data */
-    grid-template-rows: repeat(12, 24px);    /* Adjust rows based on your data */
-    grid-gap: 8px; /* Space between seats */
+    grid-template-columns: repeat(20, 30px);
+    grid-template-rows: repeat(12, 30px);
+    grid-gap: 10px;
 }
 
 .seat {
-    width: 24px;
-    height: 24px;
-    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
     cursor: pointer;
-    background-color: #444; /* Default color */
+    background-color: #444;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s; /* Smooth transition for color change */
-    border: 1px solid #333; /* Border for each seat to give box effect */
+    transition: background-color 0.3s;
+    border: 1px solid #333;
 }
 
-.seat.available {
-    background-color: #28a745; /* Green for available seats */
-}
 
 .seat.selected {
-    background-color: #007bff; /* Blue for selected seats */
+    background-color: #3a60c5; /* Reddish tone for selected seats */
 }
 
-.seat.luxury {
-    background-color: #6f42c1; /* Purple for luxury seats */
-}
 
-.seat.last-two-rows {
-    background-color: #ffc107; /* Yellow for the last two rows */
-}
 
 .seat.taken {
-    pointer-events: none; /* Disable click events */
-    background-color: #ccc; /* Change color to indicate it's taken */
-    cursor: not-allowed; /* Change cursor to indicate it's not clickable */
-}
-
-.seat.taken:hover {
-    background-color: #ccc; /* Ensure hover doesn't change the color */
-}
-
-.legend-icon {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-    border-radius: 3px;
+    pointer-events: none;
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
 #legend {
@@ -74,47 +53,50 @@
 }
 
 .legend-item span {
-    margin-left: 5px;
+    margin-left: 8px;
+    font-size: 14px;
+    color: #dc3545; /* Apply the reddish tone */
 }
 
 #selectedSeatsTable {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+    font-size: 14px; /* Make the text smaller */
+    border-collapse: collapse; /* Remove space between cells */
 }
 
 #selectedSeatsTable th,
 #selectedSeatsTable td {
-    border: 1px solid #ddd;
-    padding: 8px;
+    border: 1px solid #070505;
+    padding: 8px; /* Reduce padding */
     text-align: center;
+    border-radius: 8px; /* Add rounded corners */
 }
 
 #selectedSeatsTable th {
-    background-color: #f2f2f2;
-    color: black;
+    background-color: #bd3e3e;
+    color: #030000;
+}
+
+#selectedSeatsTable tr {
+    background-color: #bd3e3e; /* Set the background color for all rows */
 }
 
 #selectedSeatsTable tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-#selectedSeatsTable tr:hover {
-    background-color: #ddd;
+    background-color: #bd3e3e; /* Set background color for even rows */
 }
 
 #totalPrice {
-    font-size: 18px; /* Larger font size */
-    font-weight: bold;
-    color: #333;
+    font-size: 24px; /* Increase font size for better visibility */
+    font-weight: bolder; /* Make the text even thicker */
+    color: #0e0909; /* Dark red color for total price */
     margin-top: 20px;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.2); /* Add a subtle text shadow for contrast */
 }
 
 input[type="email"],
 input[type="password"] {
-    width: 100%; /* Full width for responsive design */
+    width: 100%;
     padding: 10px;
-    margin: 10px 0;
+    margin: 12px 0;
     box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
@@ -125,16 +107,108 @@ input[type="password"] {
 /* Change border color on focus */
 input[type="email"]:focus,
 input[type="password"]:focus {
-    border-color: #007BFF;
+    border-color: #b30000;
     outline: none;
 }
 
-/* Optional: Add a container to center the inputs and paragraph */
 .container {
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #dc5050;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h1, h3 {
+    color: #b30000; /* Reddish text for headings */
+    font-size: 24px; /* Increase font size */
+    font-weight: bold; /* Make the text thicker */
+    text-align: center; /* Center the text */
+}
+
+p {
+    color: #b30000;
+}
+
+/* LOGO TO COPI */
+.logo-kino {
+    background: linear-gradient(45deg, #e63946, #f1faee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: flicker 3s infinite;
+}
+
+.logo-xp {
+    color: #f1faee; /* Make the XP white */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow: 0 0 4px #e63946, 0 0 11px #e63946, 0 0 19px #e63946, 0 0 40px #e63946;
+    }
+    20%, 24%, 55% {
+        text-shadow: none;
+    }
+}
+.logo-container {
+    background-color: #000;
+    padding: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+    position: relative;
+    width: 100%;
+    text-align: center;
+}
+
+.logo {
+    font-size: 3em;
+    font-weight: bold;
+    margin: 0;
+    letter-spacing: 0.1em; /* Increase spacing between characters */
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #1a1a1a 0%, #5a0d0d 100%);
+    margin: 0;
+    overflow: auto; /* Changed from 'hidden' to 'auto' */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+}
+#screen {
+    width: 90%; /* Adjust width to fit above the seat table */
+    height: 50px; /* Height of the screen */
+    background-color: #000; /* Black color for the screen */
+    margin: 20px auto; /* Center the screen and add space around */
+    border-radius: 10px; /* Optional: Round corners of the screen */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff; /* White text inside the screen */
+    font-size: 18px; /* Increase font size */
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+#bookButton {
+    font-size: 16px;
+    font-weight: bold;
+    color: #030000;
+    background-color: #bd3e3e;
+    border: none;
+    border-radius: 8px;
+    width: 100%; /* Make the button fill the whole cell */
+    height: 100%; /* Make the button fill the whole cell */
+    padding: 10px; /* Add some padding to make it look nicer */
+    cursor: pointer;
+}
+
+#bookButton:hover {
+    background-color: #c23c3c; /* A slightly lighter shade of #bd3e3e */
 }
