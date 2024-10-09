@@ -12,6 +12,9 @@ function addCategories(category, prettyName) {
     categories.add(option);
 }
 
+document.getElementById("oldimage").height = 630;
+document.getElementById("oldimage").width = 420;
+
 const titleElement = document.getElementById("title");
 const descriptionElement = document.getElementById("description");
 const durationHoursElement = document.getElementById("duration-hours");
@@ -31,6 +34,8 @@ if (paramSearch.has("id")) {
                    .then(data => addData(data));
 
 } else {
+    document.getElementById("deleteBtn").remove();
+    document.getElementById("cancelBtn").onclick = () => location.href = "customer.html";
     httpMethod = "POST";
 }
 
@@ -47,7 +52,7 @@ function saveMovie() {
     const durationMinutes = durationMinutesElement.value;
     const price = priceElement.value;
 
-    imageElement.files[0].arrayBuffer().then(imgData => {
+    const sendData = (imgData)  => {
 
         fetch(movieApi, {
             method: httpMethod,
@@ -57,13 +62,23 @@ function saveMovie() {
                 description: description,
                 duration: `PT${durationHours}H${durationMinutes}M`,
                 price: price,
-                image: btoa(Array.from(new Uint8Array(imgData)).map(char => String.fromCharCode(char)).join(""))
+                image: imgData
             }),
             headers: {
                 "Content-Type": "application/json"
             }
         }).then(goToMovie);
-    });
+    }
+
+    if (imageElement.value === "") {
+        sendData(null);
+    } else {
+        imageElement.files[0].arrayBuffer()
+            .then(arr => btoa(Array.from(new Uint8Array(arr))
+                .map(char => String.fromCharCode(char))
+                    .join("")))
+            .then(imgData => sendData(imgData));
+    }
     
 }
 
@@ -113,10 +128,12 @@ function addData(data) {
     
     const uint8 = Uint8Array.from(atob(data.image).split("").map(char => char.charCodeAt()))
     
+    if (uint8.toString() !== "158,233,101") {
+        addRmImgBtn();
+    }
+    
     let blob = new Blob([uint8]);
-
     let file = new File([blob], "movieimage",);
-
     const url = URL.createObjectURL(file);
 
     document.getElementById("oldimage").src = url;    
@@ -125,5 +142,30 @@ function addData(data) {
 function deleteMovie() {
     fetch(movieApi, {
         method: "DELETE"
-    });
+    }).then(() => location.href = "customer.html");
+}
+
+imageElement.addEventListener("change", () => {
+    const rmImgBtn = document.getElementById("rmImgBtn");
+    if (rmImgBtn !== null) rmImgBtn.remove();
+    document.getElementById("oldimage").src = URL.createObjectURL(imageElement.files[0]);
+    addRmImgBtn();
+});
+
+function addRmImgBtn() {
+    const rmImgBtn = document.createElement("button");
+    rmImgBtn.textContent = "Remove image";
+    rmImgBtn.id = "rmImgBtn";
+    rmImgBtn.onclick = removeImage;
+
+    const table = document.querySelector(".imgOptions");
+    const row = table.insertRow(0);
+    const cell = row.insertCell(0);
+    cell.appendChild(rmImgBtn);
+}
+
+function removeImage() {
+    document.getElementById("oldimage").src = "";
+    document.getElementById("rmImgBtn").remove();
+    imageElement.value = "";
 }
