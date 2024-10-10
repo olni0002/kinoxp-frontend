@@ -21,7 +21,7 @@ function createTable(movie) {
 
     // Create rows for each attribute value only
     let attributeValues = [
-        `<img src="${movie.hrefPhoto}" alt="${movie.title}">`,
+        `<img src="${getImage(movie.image)}" alt="${movie.title}">`,
         movie.category,
         movie.duration
     ];
@@ -75,3 +75,13 @@ categoryFilter.addEventListener('change', () => {
 });
 
 fetchMovies();
+
+function getImage(image) {
+    const uint8 = Uint8Array.from(atob(image).split("").map(char => char.charCodeAt()))
+
+    const blob = new Blob([uint8]);
+
+    const file = new File([blob], "movieimage",);
+
+    return URL.createObjectURL(file);
+}
