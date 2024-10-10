@@ -12,8 +12,10 @@ function addCategories(category, prettyName) {
     categories.add(option);
 }
 
-document.getElementById("oldimage").height = 630;
-document.getElementById("oldimage").width = 420;
+const oldImageElement = document.getElementById("oldimage");
+oldImageElement.height = 630;
+oldImageElement.width = 420;
+let imageFile;
 
 const titleElement = document.getElementById("title");
 const descriptionElement = document.getElementById("description");
@@ -70,10 +72,10 @@ function saveMovie() {
         }).then(goToMovie);
     }
 
-    if (imageElement.value === "") {
+    if (oldImageElement.src === "") {
         sendData(null);
     } else {
-        imageElement.files[0].arrayBuffer()
+        imageFile.arrayBuffer()
             .then(arr => btoa(Array.from(new Uint8Array(arr))
                 .map(char => String.fromCharCode(char))
                     .join("")))
@@ -126,18 +128,17 @@ function addData(data) {
     durationMinutesElement.value = durationMinutes;
 
     priceElement.value = data.price;
-    
-    const uint8 = Uint8Array.from(atob(data.image).split("").map(char => char.charCodeAt()))
-    
-    if (uint8.toString() !== "158,233,101") {
+
+    if (data.image !== null) {
+        const uint8 = Uint8Array.from(atob(data.image).split("").map(char => char.charCodeAt()))
+
+        const blob = new Blob([uint8]);
+        imageFile = new File([blob], "movieimage");
+
+        const url = URL.createObjectURL(imageFile);
+        oldImageElement.src = url;
         addRmImgBtn();
     }
-    
-    let blob = new Blob([uint8]);
-    let file = new File([blob], "movieimage",);
-    const url = URL.createObjectURL(file);
-
-    document.getElementById("oldimage").src = url;    
 }
 
 function deleteMovie() {
@@ -149,7 +150,8 @@ function deleteMovie() {
 imageElement.addEventListener("change", () => {
     const rmImgBtn = document.getElementById("rmImgBtn");
     if (rmImgBtn !== null) rmImgBtn.remove();
-    document.getElementById("oldimage").src = URL.createObjectURL(imageElement.files[0]);
+    imageFile = imageElement.files[0];
+    oldImageElement.src = URL.createObjectURL(imageFile);
     addRmImgBtn();
 });
 
@@ -166,7 +168,7 @@ function addRmImgBtn() {
 }
 
 function removeImage() {
-    document.getElementById("oldimage").src = "";
+    oldImageElement.removeAttribute("src");
     document.getElementById("rmImgBtn").remove();
     imageElement.value = "";
 }

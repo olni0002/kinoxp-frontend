@@ -21,10 +21,16 @@
     <select id="category"></select><br>
     <p>Description</p>
     <textarea id="description"></textarea><br>
+    
     <p>Duration</p>
-    <input type="number" id="duration-hours"><p>Hours</p><input type="number" id="duration-minutes"><p>Minutes</p><br>
+    <input type="number" id="duration-hours" min="0" value="0">
+    <p>Hours</p>
+    <input type="number" id="duration-minutes" min="0" max="59" value="0">
+    <p>Minutes</p>
+    <br>
+    
     <p>Price</p>
-    <input type="number" id="price"><p>DKK</p><br>
+    <input type="number" id="price" min="0"><p>DKK</p><br>
 
     <button onclick="saveMovie()">Save</button>
     <button onclick="goToMovie()" id="cancelBtn">Cancel</button>
