@@ -101,6 +101,7 @@ function getJson(data) {
 function addData(data) {
 
     titleElement.value = data.title;
+    categories.value = data.category;
     descriptionElement.value = data.description;
 
     const dString = data.duration;
