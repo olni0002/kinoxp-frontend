@@ -7,7 +7,7 @@ fetch(`http://127.0.0.1:8080/api/movie/${id}`)
     .catch(error => console.error('Error fetching movie details:', error));
 
 // Fetch showings for the movie using the movie ID
-fetch(`http://127.0.0.1:8080/showing/${id}`)
+fetch(`http://127.0.0.1:8080/api/showing/${id}`)
     .then(response => response.json())
     .then(data => addShowings(data))
     .catch(error => console.error('Error fetching showings:', error));
@@ -76,7 +76,7 @@ function addShowings(showings) {
 
     const tbody = document.createElement("tbody");
 
-    showings.forEach(showing => {
+    const fillTable = showing => {
         const showingRow = document.createElement("tr");
 
         const datePart = showing.date;
@@ -105,7 +105,13 @@ function addShowings(showings) {
         showingRow.appendChild(timeCell);
         showingRow.appendChild(actionCell);
         tbody.appendChild(showingRow);
-    });
+    }
+
+    if (Array.isArray(showings)) {
+        showings.forEach(fillTable);
+    } else {
+        fillTable(showings);
+    }
 
     table.appendChild(tbody);
     showingsContainer.appendChild(table);
