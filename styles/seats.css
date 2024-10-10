@@ -32,13 +32,16 @@
     background-color: #3a60c5; /* Reddish tone for selected seats */
 }
 
-
-
-.seat.taken {
-    pointer-events: none;
-    background-color: #ccc;
+.seat.reserved {
+    background-color: #FF6347; /* reserved seat color */
     cursor: not-allowed;
 }
+
+/* Disabled seats cannot be clicked */
+.seat.disabled {
+    pointer-events: none;
+}
+
 
 #legend {
     margin-top: 20px;
@@ -211,4 +214,30 @@ body {
 
 #bookButton:hover {
     background-color: #c23c3c; /* A slightly lighter shade of #bd3e3e */
+}
+.nav-bar {
+    background-color: #000; /* Black background */
+    padding: 1em;
+    text-align: center;
+}
+
+.nav-bar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav-bar li {
+    margin-right: 20px;
+}
+
+.nav-bar a {
+    color: #fff; /* White text color */
+    text-decoration: none;
+}
+
+.nav-bar a:hover {
+    color: #ccc; /* Light gray text color on hover */
 }

@@ -9,6 +9,75 @@ let selectedSeats = []; // Initialize the selected seats array
 const urlParams = new URLSearchParams(window.location.search);
 const showingId = urlParams.get('showingId');
 
+
+
+// Function to create the seating grid
+// Function to create the seating grid
+async function createSeatGrid(seats, reservedSeats, showingId) {
+    // Fetch reserved seats from the server
+    try {
+        const response = await fetch(`http://localhost:8080/resevation/${showingId}`); // Corrected endpoint
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        reservedSeats = await response.json(); // Update reservedSeats with fetched data
+        console.log(reservedSeats);
+        var reservedSeatIds = reservedSeats.map(seatInfo => {
+            return seatInfo.seat.id; // Return the seat id to be added to the new array
+        });
+
+// Now, reservedSeatIds contains all the seat ids of reserved seats
+
+        console.log(reservedSeatIds);
+    } catch (error) {
+        console.error('Error fetching reserved seats:', error);
+        reservedSeats = []; // Fallback to an empty array on error
+    }
+
+    seatingGrid.innerHTML = ''; // Clear existing seats
+
+    // Determine grid dimensions dynamically based on the data
+    const numRows = Math.max(...seats.map(seat => seat.numberRow));  // Highest row number
+    const numSeatsPerRow = Math.max(...seats.map(seat => seat.numberSeat));  // Highest seat number
+
+    seatingGrid.style.gridTemplateColumns = `repeat(${numSeatsPerRow}, 1fr)`;
+    seatingGrid.style.gridTemplateRows = `repeat(${numRows}, 1fr)`;
+    seats.forEach(seat => {
+        const seatElement = document.createElement('div');
+        seatElement.classList.add('seat');
+
+        // Check if the seat is reserved for the current showingId
+        if (reservedSeatIds.includes(seat.id)) {
+            seatElement.classList.add('reserved'); // Add a reserved class
+            seatElement.style.backgroundColor = 'red'; // Change the background color to red
+            seatElement.style.pointerEvents = 'none'; // Make reserved seats unclickable
+        } else {
+            // Add click event to toggle selection for non-reserved seats
+            seatElement.addEventListener('click', () => {
+                if (seatElement.classList.contains('selected')) {
+                    seatElement.classList.remove('selected');
+                    selectedSeats = selectedSeats.filter(selectedSeat => selectedSeat.id !== seat.id);
+                    console.log(`Seat deselected: Seat ID ${seat.id}`);
+                } else {
+                    seatElement.classList.add('selected');
+                    selectedSeats.push(seat);
+                    console.log(`Seat selected: Seat ID ${seat.id}`);
+                }
+
+                // Update selected seats table and pricing logic
+                updateSelectedSeatsTable();
+            });
+        }
+
+        // Append the seat element to the grid
+        seatingGrid.appendChild(seatElement);
+    });
+
+}
+
+
+
+
 if (showingId) {
     // Use the showing ID to fetch the relevant seats and theater details
     fetchSeatsForShowing(showingId);
@@ -24,68 +93,11 @@ async function fetchSeatsForShowing(showingId) {
         const theaterId = showingDetails.theater.id; // Assuming the showing details include the theater ID
 
         // Now fetch the seats for the specific theater
-        fetchSeats(theaterId);
+        fetchSeats(theaterId, showingId);
     } catch (error) {
         console.error(`Error fetching showing details or seats: ${error}`);
     }
 }
-
-// Function to create the seating grid
-async function createSeatGrid(seats) {
-    seatingGrid.innerHTML = ''; // Clear existing seats
-
-    // Determine grid dimensions dynamically based on the data
-    const numRows = Math.max(...seats.map(seat => seat.numberRow));  // Highest row number
-    const numSeatsPerRow = Math.max(...seats.map(seat => seat.numberSeat));  // Highest seat number
-
-    // Set the CSS grid properties dynamically to match the fetched seat layout
-    seatingGrid.style.gridTemplateColumns = `repeat(${numSeatsPerRow}, 1fr)`;
-    seatingGrid.style.gridTemplateRows = `repeat(${numRows}, 1fr)`;
-
-    seats.forEach(seat => {
-        const seatElement = document.createElement('div');
-        seatElement.classList.add('seat');
-
-        // Add click event to toggle selection for all seats
-        seatElement.addEventListener('click', () => {
-            if (seatElement.classList.contains('selected')) {
-                seatElement.classList.remove('selected');
-                // Remove the seat from the selected seats array
-                selectedSeats = selectedSeats.filter(selectedSeat => selectedSeat.numberSeat !== seat.numberSeat || selectedSeat.numberRow !== seat.numberRow);
-                console.log(`Seat deselected: Row ${seat.numberRow}, Seat ${seat.numberSeat}`);
-            } else {
-                seatElement.classList.add('selected');
-                // Add the seat to the selected seats array
-                selectedSeats.push(seat);
-                console.log(`Seat selected: Row ${seat.numberRow}, Seat ${seat.numberSeat}`);
-            }
-
-            // Update the table with selected seats
-            updateSelectedSeatsTable();
-
-            // Calculate total price
-            let totalPrice = selectedSeats.reduce((sum, selectedSeat) => sum + selectedSeat.price, 0);
-
-            // Apply reservation fee if 5 or fewer seats are selected
-            const reservationFee = 5; // Example reservation fee
-            if (selectedSeats.length <= 5) {
-                totalPrice += reservationFee;
-            }
-
-            // Apply discount if more than 10 seats are selected
-            if (selectedSeats.length > 10) {
-                totalPrice *= 0.93; // Apply 7% discount
-            }
-
-            // Update total price in the HTML
-            totalPriceElement.textContent = `Total Price: $${totalPrice.toFixed(2)}`;
-        });
-
-        // Append the seat element to the grid
-        seatingGrid.appendChild(seatElement);
-    });
-}
-
 
 const urlUser  = "http://localhost:8080/users";
 
@@ -188,8 +200,10 @@ function updateSelectedSeatsTable() {
 
                 if (responses.every(response => response.ok)) {
                     console.log("Reservations created successfully!");
-                    // Refresh the page after reservations are created
-                    location.reload();
+
+                    // Redirect to receipt.html with query parameters
+                    const seatsParam = encodeURIComponent(JSON.stringify(selectedSeats));
+                    window.location.href = `receipt.html?email=${encodeURIComponent(email)}&seats=${seatsParam}`;
                 } else {
                     console.error("Error creating reservations:", responses.map(response => response.status));
                 }
@@ -205,14 +219,30 @@ function updateSelectedSeatsTable() {
     selectedSeatsBody.appendChild(bookButtonRow);
 }
 // Function to fetch seats from backend
-async function fetchSeats(theaterId) {
+async function fetchSeats(theaterId, showingId) {
     try {
+        // Fetch seat data for the theater
         const url = `${urlSeats}/${theaterId}`;
-        const response = await fetchAnyUrl(url); // Fetch data from the server
+        const response = await fetchAnyUrl(url); // Fetch seat data from the server
         const seatsWithTheaterId = response.map(seat => ({ ...seat, theaterId })); // Add theaterId to each seat
-        createSeatGrid(seatsWithTheaterId); // Create the seat grid with the fetched data
+
+        // Fetch reservation data for the showingId
+        const reservationUrl = `http://localhost:8080/resevation/${showingId}`;
+        const reservationResponse = await fetch(reservationUrl);
+        if (!reservationResponse.ok) {
+            throw new Error('Failed to fetch reservation data');
+        }
+
+        const reservations = await reservationResponse.json();
+        const reservedSeats = reservations.map(reservation => ({
+            seatId: reservation.seatId,    // The seat ID from the reservation
+            showingId: reservation.showingId // The showing ID from the reservation
+        }));
+
+        // Create seat grid, marking reserved seats as unclickable
+        createSeatGrid(seatsWithTheaterId, reservedSeats, showingId);
     } catch (error) {
-        console.error(`Error fetching seats for theater ${theaterId}: ${error}`);
+        console.error(`Error fetching seats for theater ${theaterId} or reservations: ${error}`);
     }
 }
 

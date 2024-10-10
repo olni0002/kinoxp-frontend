@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="styles/customerfp.css">
 </head>
 <body>
+
 <!-- LOGO TO COPI -->
 <div class="logo-container">
     <h1 class="logo"><span class="logo-kino">KINO</span><span class="logo-xp">XP</span></h1>
@@ -13,11 +14,23 @@
 <div class="background"></div> <!-- Background texture -->
 <div class="curtain"></div> <!-- Curtain effect -->
 
-
+<nav class="nav-bar">
+    <!-- Add your navigation links here -->
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+    </ul>
+</nav>
 <div class="container">
-    <h1>Welcome to the Movie List</h1>
-    <p>Explore the best movies available!</p>
-    <div id="movie-container"></div> <!-- Container for movie tables -->
+    <select id="category-filter">
+        <option value="ALL">All</option>
+        <option value="HORROR">Horror</option>
+        <option value="ROMANCE">Romance</option>
+        <option value="ACTION">Action</option>
+        <option value="SCIENCE_FICTION">Science Fiction</option>
+    </select>
+    <div id="movie-container"></div>
 </div>
 
 <script src="js/moviesite.js"></script> <!-- Link to your JavaScript file -->

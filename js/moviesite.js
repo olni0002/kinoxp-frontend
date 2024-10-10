@@ -1,5 +1,6 @@
 const urlMovie = "http://localhost:8080/movies";
 const container = document.getElementById("movie-container");
+const categoryFilter = document.getElementById("category-filter");
 
 function createTable(movie) {
     let table = document.createElement("table");
@@ -14,7 +15,7 @@ function createTable(movie) {
     // Create a header row
     let headerRow = thead.insertRow();
     let headerCell = document.createElement("th");
-    headerCell.colSpan = 1; // Adjusted to span only one column
+    headerCell.colSpan = 1;
     headerCell.innerHTML = movie.title;
     headerRow.appendChild(headerCell);
 
@@ -31,17 +32,15 @@ function createTable(movie) {
         valueCell.innerHTML = value;
     });
 
-    // Update this line to point to the new HTML page with the correct query parameter
     const urlMovieView = `moviedetails.html?id=${movie.id}`;
 
     // Create a button and append it to the table
     let buttonRow = tbody.insertRow();
     let buttonCell = buttonRow.insertCell();
-    buttonCell.colSpan = 1; // Adjust to span the full width of the table if needed
+    buttonCell.colSpan = 1;
     let button = document.createElement("button");
     button.innerHTML = "View More";
     button.onclick = () => {
-        // Redirect to the movieView.html with the movie ID as a query parameter
         window.location.href = urlMovieView;
     };
     buttonCell.appendChild(button);
@@ -55,13 +54,24 @@ async function fetchAnyUrl(url) {
     return response.json();
 }
 
-async function fetchMovie() {
+async function fetchMovies() {
     try {
         const movies = await fetchAnyUrl(urlMovie);
-        movies.forEach(createTable);
+        displayMovies(movies);
     } catch (error) {
         console.error('Error fetching movies:', error);
     }
 }
 
-fetchMovie();
+function displayMovies(movies) {
+    container.innerHTML = ''; // Clear existing movies
+    const selectedCategory = categoryFilter.value;
+    const filteredMovies = selectedCategory === 'ALL' ? movies : movies.filter(movie => movie.category === selectedCategory);
+    filteredMovies.forEach(createTable);
+}
+
+categoryFilter.addEventListener('change', () => {
+    fetchMovies();
+});
+
+fetchMovies();
