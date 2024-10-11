@@ -1,3 +1,5 @@
+userValidation();
+
 function fetchAnyUrl(url) {
     return fetch(url).then(response => response.json());
 }
@@ -33,17 +35,11 @@ async function loginUser(email, password) {
             if (user.password === password) {
                 console.log("Login successful!", user);
 
-                // Redirect based on privilege level (now comparing strings)
-                if (user.privilegeLevel === 'CUSTOMER') {
-                    console.log("Redirecting to customer.html");
-                    window.location.href = 'customer.html';
-                } else if (user.privilegeLevel === 'ADMINISTRATOR') {
-                    console.log("Redirecting to admin.html");
-                    window.location.href = 'admin.html';
-                } else if (user.privilegeLevel === 'EMPLOYEE') {
-                    console.log("Redirecting to employee.html");
-                    window.location.href = 'employee.html';
-                }
+                document.cookie = `userid=${user.id}; max-age=34560000; path=/`;
+                document.cookie = `password=${user.password}; max-age=34560000; path=/`;
+
+                console.log("Redirecting to customer.html");
+                window.location.href = 'customer.html';
             } else {
                 showError("Invalid password");
             }
@@ -68,3 +64,45 @@ document.getElementById("loginButton").addEventListener("click", function() {
     const passwordInput = document.getElementById("password").value;
     loginUser(emailInput, passwordInput);
 });
+
+async function userValidation() {
+    const cookie = document.cookie;
+
+    const idFromCookie = getCookie("userid");
+    const passwordFromCookie = getCookie("password");
+
+    const validate = (user) => {
+        if (user.id == idFromCookie) {
+            if (user.password === passwordFromCookie) {
+                document.cookie = `userid=${idFromCookie}; max-age=34560000; path=/`;
+                document.cookie = `password=${passwordFromCookie}; max-age=34560000; path=/`;
+                location.href = "customer.html";
+            }
+        }
+    }
+
+    const response = await fetch("http://127.0.0.1:8080/users");
+    const json = await response.json();
+
+    if (Array.isArray(json)) {
+        json.forEach(validate);
+    } else {
+        validate(json);
+    }
+}
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+}

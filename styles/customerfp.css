@@ -186,3 +186,22 @@ table img {
     margin: 0;
     letter-spacing: 0.1em; /* Increase spacing between characters */
 }
+
+.newMovieBtn {
+    position: absolute;
+    right: 0;
+    z-index: 1;
+    display: none;
+}
+
+.logoutBtn {
+    position: absolute;
+    z-index: 2;
+    display: none;
+}
+
+.loginBtn {
+    position: absolute;
+    z-index: 2;
+    display: none;
+}

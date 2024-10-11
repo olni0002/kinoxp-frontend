@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="styles/moviedetails.css">
 </head>
 <body>
+
+<button onclick="goToMovieList()" class="backbutton">Go back</button>
+
 <div class="background"></div> <!-- Background texture -->
 <div class="logo-container">
     <h1 class="logo"><span class="logo-kino">KINO</span><span class="logo-xp">XP</span></h1>
@@ -17,6 +20,8 @@
 
     <div class="moviedetails">
         <p id="title"></p>
+        <button onclick="editMode()" id="editmode">Edit movie</button>
+        <button onclick="showingsHash()" id="displayshowings">Showings</button>
         <p class="info"><span id="duration"></span> | <span id="category"></span></p>
         <p id="description"></p>
     </div>

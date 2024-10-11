@@ -1,3 +1,5 @@
+userValidation();
+
 const categories = document.getElementById("category");
 
 addCategories("HORROR", "Horror");
@@ -171,4 +173,55 @@ function removeImage() {
     oldImageElement.removeAttribute("src");
     document.getElementById("rmImgBtn").remove();
     imageElement.value = "";
+}
+
+async function userValidation() {
+    let loggedIn = false;
+    const cookie = document.cookie;
+
+    const idFromCookie = getCookie("userid");
+    const passwordFromCookie = getCookie("password");
+
+    const validate = (user) => {
+        if (user.id == idFromCookie) {
+            if (user.password === passwordFromCookie) {
+                document.cookie = `userid=${idFromCookie}; max-age=34560000; path=/`;
+                document.cookie = `password=${passwordFromCookie}; max-age=34560000; path=/`;
+                loggedIn = true;
+
+                if (user.privilegeLevel === "CUSTOMER") {
+                    location.href = "customer.html";
+                }
+            }
+        }
+    }
+
+    const response = await fetch("http://127.0.0.1:8080/users");
+    const json = await response.json();
+
+    if (Array.isArray(json)) {
+        json.forEach(validate);
+    } else {
+        validate(json);
+    }
+
+    if (!loggedIn) {
+        location.href = "customer.html";
+    }
+}
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
 }

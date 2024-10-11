@@ -35,6 +35,11 @@ body {
     font-size: 3em;
     font-weight: bold;
     margin: 0px;
+    display: inline-block;
+}
+
+#editmode {
+    visibility: hidden;
 }
 
 .logo-kino {
@@ -73,6 +78,41 @@ body {
     margin: 0;
     letter-spacing: 0.1em; /* Increase spacing between characters */
 }
+
+.backbutton {
+    position: absolute;
+    z-index: 4;
+    color: silver;
+    background-color: darkred;
+    border: none;
+    font-weight: bold;
+}
+
+.backbutton:hover {
+    color: white;
+}
+
+#displayshowings {
+    color: white;
+    background-color: seagreen;
+    border: none;
+    font-size: 1.1em;
+    font-weight: bold;
+    padding: 1em;
+}
+
+#displayshowings:hover {
+    background-color: green;
+}
+
+.showings-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
 .showings-table {
     width: 100%;
     border-collapse: collapse;
